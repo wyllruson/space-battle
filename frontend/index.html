@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Battle</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/55e841592a.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="game">
+
+        <!-- Sidebar -->
+        <aside id="gameSidebar" class="prevent-select">
+            <div class="sidebar-header">
+                <h1>Space Battle</h1>
+                <br>
+                <ul class="sidebar-instructions">
+                    <li>move with WASD or arrow keys</li>
+                    <li>click to shoot</li>
+                    <li>don't get hit!</li>
+                </ul>
+            </div>
+            <div id="gameSidebarFooter">
+                <p class="sidebar-flavor">
+                    <sub>
+                        <br><i>somewhere far, far away...</i>
+                        <br>　°　　　•　　.°•　　　 ✯
+                        <br>　　　★　*　　　　　°　　　　　°·
+                        <br>.　　　　　•　° ★　•  ☄
+                    </sub>
+                </p>
+                <i id="raspberryIcon" class="fa-brands fa-raspberry-pi fa-beat-fade fa-2xl" aria-hidden="true"></i>
+                <div id="enemyStaging"></div>
+            </div>
+        </aside>
+
+        <!-- Playfield -->
+        <div id="canvasColumn">
+            <div id="playArea">
+                <canvas id="gameCanvas" width="720" height="720"></canvas>
+
+                <div id="startOverlay" class="prevent-select">
+                    <div class="overlay-actions">
+                        <button id="startButton" type="button" class="overlay-button overlay-button--large"
+                            onclick="startGame()">Start Game</button>
+                        <button type="button" class="overlay-button"
+                            onclick="openLeaderboardModal()">View Leaderboards</button>
+                    </div>
+                </div>
+
+                <div id="gameDialog" class="prevent-select modal-overlay" role="dialog" aria-modal="true">
+                    <div class="modal-content game-dialog-content">
+                        <p id="gameDialogMessage"></p>
+                        <input id="gameDialogInput" type="text" maxlength="50" autocomplete="off">
+                        <p id="gameDialogError" class="game-dialog-error"></p>
+                        <div class="game-dialog-actions">
+                            <button type="button" id="gameDialogSecondary" class="overlay-button">Cancel</button>
+                            <button type="button" id="gameDialogPrimary" class="overlay-button">OK</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="leaderboardModal" class="prevent-select modal-overlay" role="dialog" aria-modal="true"
+                    onclick="if (event.target === this) closeLeaderboardModal()">
+                    <div class="modal-content">
+                        <h2>Leaderboards</h2>
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardModalBody"></tbody>
+                        </table>
+                        <button type="button" class="overlay-button overlay-button--inline"
+                            onclick="closeLeaderboardModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div id="collisionEffects" aria-hidden="true"></div>
+        </div>
+
+        <!-- Game-over HUD (positioned over canvas via JS) -->
+        <div id="leaderboard" class="prevent-select">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody"></tbody>
+            </table>
+        </div>
+
+        <div id="gameOver" class="prevent-select">Game Over</div>
+
+        <div id="gameOverActions" class="prevent-select overlay-actions">
+            <button type="button" class="overlay-button" onclick="recordScore()">Record Score</button>
+            <button type="button" class="overlay-button" onclick="handleRestart()">Restart</button>
+        </div>
+
+        <div id="scoreHud" class="prevent-select">Score: <span id="score">0</span></div>
+
+        <button id="uiToggle" class="prevent-select" type="button" onclick="toggleCanvasUi()"
+            aria-label="Hide canvas UI" title="Hide canvas UI">
+            <i id="uiToggleIcon" class="fa-solid fa-eye" aria-hidden="true"></i>
+        </button>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../backend/config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
