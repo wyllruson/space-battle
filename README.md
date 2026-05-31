@@ -2,6 +2,8 @@
 
 Pilot your rocket, destroy enemies, and climb the leaderboard. Scores persist in **localStorage** by default, or sync globally via **Supabase** when configured.
 
+**Play online:** [https://wyllruson.github.io/space-battle/](https://wyllruson.github.io/space-battle/)
+
 ## Features
 
 - Canvas gameplay with WASD / arrow-key movement and click-to-shoot
@@ -16,21 +18,18 @@ Pilot your rocket, destroy enemies, and climb the leaderboard. Scores persist in
 | Frontend | HTML, CSS, vanilla JavaScript, Canvas API  |
 | Backend  | Supabase (PostgreSQL + Row Level Security) |
 | Icons    | [Font Awesome](https://fontawesome.com/)   |
+| Hosting  | [GitHub Pages](https://pages.github.com/)  |
 
 ## Prerequisites
 
 - A modern web browser
 - (Optional) [Supabase](https://supabase.com/) project for shared leaderboards
-- (Optional) A local static file server — required for Supabase config to load reliably (see [Run locally](#run-locally))
+- (Optional) A local static file server — required for Supabase config to load reliably when developing locally (see [Run locally](#run-locally))
 
 ## Quick start
 
-1. Clone or download this repository.
-2. Serve the project from the **repository root** (see [Run locally](#run-locally)).
-3. Open the app in your browser (e.g. `http://localhost:8000/frontend/`).
-4. Click **Start Game** and play.
-
-Without Supabase, scores are stored only in the browser’s localStorage.
+1. Open **[https://wyllruson.github.io/space-battle/](https://wyllruson.github.io/space-battle/)** and click **Start Game**, or clone this repo and [run locally](#run-locally).
+2. Without Supabase, scores are stored only in the browser’s localStorage.
 
 ## Run locally
 
@@ -65,6 +64,8 @@ Then visit: **http://localhost:8000/frontend/**
 
 5. Reload the game. The browser console should no longer show the local-fallback message.
 
+6. For the live site, push to `main` so the [GitHub Pages workflow](.github/workflows/pages.yml) redeploys with your updated `config.js`.
+
 > **Security note:** The anon key is intended for client-side use. Restrict what clients can do via Row Level Security policies (as in `schema.sql`). Do not commit production secrets you are not comfortable exposing; use environment-specific keys for deployed apps.
 
 ## How to play
@@ -81,15 +82,26 @@ After **Game Over**, enter a name to **Record Score** (if you qualify for the to
 
 ```
 space-battle/
+├── .github/workflows/
+│   └── pages.yml       # Build and deploy to GitHub Pages
 ├── frontend/
-│   ├── index.html    # Game shell and UI
-│   ├── script.js     # Game logic and leaderboard
-│   └── style.css     # Layout and styling
+│   ├── index.html      # Game shell and UI
+│   ├── script.js       # Game logic and leaderboard
+│   └── style.css       # Layout and styling
 ├── backend/
-│   ├── config.js     # Supabase URL and anon key
-│   └── schema.sql    # Leaderboard table and RLS policies
+│   ├── config.js       # Supabase URL and anon key
+│   └── schema.sql      # Leaderboard table and RLS policies
 └── README.md
 ```
+
+## Deployment
+
+Pushes to `main` run `.github/workflows/pages.yml`, which copies the frontend into a static site, inlines `backend/config.js` at the site root, and publishes to GitHub Pages.
+
+| Environment | URL |
+| ----------- | --- |
+| Production  | [https://wyllruson.github.io/space-battle/](https://wyllruson.github.io/space-battle/) |
+| Local dev   | `http://localhost:8000/frontend/` |
 
 ## Development notes
 
